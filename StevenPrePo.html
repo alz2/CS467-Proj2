@@ -14,23 +14,34 @@ d3.csv("sucide_data.csv", function(data) {
     d["suicides/100k pop"] = +d["suicides/100k pop"];
     csvdata.push(d);
   });
-  console.log(csvdata[0]);
-  var rate = Filterdata(csvdata, 2000); 
-  console.log(rate);
+  var dict = Filterdata(csvdata, 2000); 
 });
 
 //load csv -> filter through func(year, metric) -> output a json document 
 function Filterdata(csvdata, year) {
-  var rate_sum = 0;
-  var count = 0;
-  var arrayLength = csvdata.length;
-    for (var i = 0; i < arrayLength; i++) {
+  var contry_list_dict = new Map(csvdata.map(i => [i.Country_key, []]));
+
+  var csvdataLength = csvdata.length;
+  console.log(contry_list_dict["ALB"]);
+    for (var i = 0; i < csvdataLength; i++) {
         if (year == csvdata[i].year) {
-    		rate_sum = rate_sum + csvdata[i]["suicides/100k pop"];
-    		count = count + 1;
-		}	
-    }
-  return rate_sum / count;              
+    		var cur_con = csvdata[i].Country_key;
+    		console.log(cur_con);
+    		console.log(contry_list_dict[cur_con]);
+    		var list = contry_list_dict[cur_con];
+    		console.log(list);
+    		list.push(csvdata[i]["suicides/100k pop"]);
+    		contry_list_dict[cur_con] = list;
+		}
+	}
+		//[USA: [2.3, 5.6, 6.5]] in year 2000; .............
+	for (var key in contry_list_dict){
+  		var arr = contry_list_dict[key];
+  		var sum = arr.reduce(function(a, b) { return a + b; });
+        var avg = sum / arr.length;
+        contry_list_dict[key] = avg;
+	}
+  return contry_list_dict;              
 }
 </script>
 
