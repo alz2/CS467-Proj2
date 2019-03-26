@@ -104,6 +104,8 @@ height: 40%; */
 <body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.1.0/d3-legend.js"></script>
+
     <script src="node_modules/datamaps/dist/datamaps.world.min.js"></script>
 
     <div class="header" id="header">
@@ -118,8 +120,12 @@ height: 40%; */
     <p style="text-align:center">Age-standarized death rates from suicide, measured as the number of deaths per 100,000 individuals.</p>
     <p style="text-align:center">Age-standarization assumes a constant population age & structure to allow for comparisons between countries and with time without the effects of a changing age distribution within a population (e.g. aging).</p>
 
-    <div class="lmap" id="lmap" style="text-align:center"></div>
+
+    <div class="lmap" id="lmap" style="text-align:center">
+        <svg width="600" height="100"></svg>
+    </div>
     <div class="rmap" id="rmap" style="text-align:center"></div>
+
 
 
     <script type="text/javascript" src="script.js" style="text-align:center"></script>

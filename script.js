@@ -1,9 +1,11 @@
 var currentYear = 2000;
 var currentOption = "suicides/100k pop";
-var cgdp = "gdp_per_capita ($)";
-// var cweather = "";
-var cpopulation = "population";
-// var hscore = "";
+var minColor = "#EFEFFF";
+var maxColor = "#02386F";
+var leftMin = 0,
+    leftMax = 0,
+    rightMin = 0,
+    rightMax = 0;
 
 async function loadCsvData() {
     let csvResp = await fetch('suicide_data.csv');
@@ -49,7 +51,7 @@ loadCsvData().then((d)=>{
 
         var paletteScale = d3.scale.pow()
             .domain([minValue,maxValue])
-            .range(["#EFEFFF","#02386F"]); // blue color
+            .range([minColor,maxColor]); // blue color
 
         Object.keys(geoData).map((country, i) => {
             geoData[country] = {
@@ -128,11 +130,20 @@ loadCsvData().then((d)=>{
 
     function updateMaps() {
         leftData = filterData("suicides/100k pop", currentYear);
-        console.log(currentOption);
-        console.log(currentYear);
         rightData = filterData(currentOption, currentYear);
         augmentColors(leftData);
         augmentColors(rightData);
+        // update minmax vals
+        let leftValues = Object.keys(leftData).map((country, i) => {return leftData[country].number});
+        let rightValues = Object.keys(rightData).map((country, i) => {return rightData[country].number});
+        leftMin = Math.min.apply(null, leftValues);
+        leftMax = Math.max.apply(null, leftValues);
+        rightMin = Math.min.apply(null, rightValues);
+        rightMax = Math.max.apply(null, rightValues);
+        updateLegend(leftMin, leftMax);
+
+
+
         leftMap.updateChoropleth(leftData);
         rightMap.updateChoropleth(rightData);
         years.innerHTML = slider.value;
@@ -160,6 +171,34 @@ loadCsvData().then((d)=>{
     button3.onclick = onClickFn;
 
     d3.select(".lmap").attr("align","center");
-    d3.select(".rmap").attr("align","center");
 
+    function updateLegend(minVal, maxVal) {
+        // Color legend.
+        var svg = d3.select("svg");
+        var linear = d3.scale.pow()
+            .domain([minVal, maxVal])
+            .range([minColor, maxColor]);
+
+        var svg = d3.select("svg");
+
+        if (svg[0][0].childElementCount) { // remove previous graphic if avail
+            while (svg[0][0].firstChild) {
+                svg[0][0].removeChild(svg[0][0].firstChild);
+            }
+        }
+
+        svg.append("g")
+            .attr("class", "legendLinear")
+            .attr("transform", "translate(20,20)");
+
+        var legendLinear = d3.legend.color()
+            .shapeWidth(50)
+            .cells(10)
+            .orient('horizontal')
+            .scale(linear);
+
+        svg.select(".legendLinear")
+            .call(legendLinear);
+    }
+    updateLegend(0, 10);
 });
