@@ -1,10 +1,3 @@
-var currentYear = 2000;
-var currentOption = "suicides/100k pop";
-var cgdp = "gdp_per_capita ($)";
-// var cweather = "";
-var cpopulation = "population";
-// var hscore = "";
-
 async function loadCsvData() {
     let csvResp = await fetch('suicide_data.csv');
     let csvText = await csvResp.text();
@@ -104,6 +97,7 @@ loadCsvData().then((d)=>{
     var leftMap = createMap(leftMapDiv, "suicides/100k pop", leftData);
     var rightMap = createMap(rightMapDiv, "suicides/100k pop", rightData);
 
+    var currentOption = "suicides/100k pop";
 
     function htmlToElement(html) {
         var template = document.createElement('template');
@@ -114,39 +108,25 @@ loadCsvData().then((d)=>{
 
     // make slider
     var sliderContainer = document.createElement("slidecontainer");
-    var slider = htmlToElement('<input type="range" min="2000" max="2015" value="50" class="slider" id="myRange">&nbsp;<p>Year: <span id="cyear"></span></p>');
+    var slider = htmlToElement('<input type="range" min="1985" max="2015" value="50" class="slider" id="myRange">&nbsp;<p>Year: <span id="cyear"></span></p>');
     sliderContainer.appendChild(slider);
     document.body.appendChild(sliderContainer);
 
-    function updateMaps() {
-        leftData = filterData("suicides/100k pop", currentYear);
-        console.log(currentOption);
-        console.log(currentYear);
-        rightData = filterData(currentOption, currentYear);
+    //<div class="slidecontainer">
+    //    <input type="range" min="2000" max="2015" value="50" class="slider" id="myRange">
+    //    &nbsp;<p>Year: <span id="cyear"></span></p>
+    //</div>
+    
+    var slider = document.getElementById("myRange");
+    slider.oninput = function() {
+        console.log("update");
+        let newYear = +this.value;
+        leftData = filterData(currentOption, newYear);
+        rightData = filterData(currentOption, newYear);
         augmentColors(leftData);
         augmentColors(rightData);
         leftMap.updateChoropleth(leftData);
         rightMap.updateChoropleth(rightData);
     }
-
-
-    var slider = document.getElementById("myRange");
-    slider.oninput = function() {
-        currentYear = +this.value;
-        updateMaps();
-    }
-
-    function onClickFn(v) {
-        console.log(this.value);
-        currentOption = this.value;
-        updateMaps();
-    }
-
-    // var button1 = htmlToElement('<button class="btn gdp" id="b1">GDP</button>');
-    var button1 = document.getElementById("b1");
-    button1.onclick = onClickFn;
-
-    // var button3 = htmlToElement('<button class="btn population" id="b3">Population</button>');
-    var button3 = document.getElementById("b3");
-    button3.onclick = onClickFn;
 });
+
