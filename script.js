@@ -13,7 +13,16 @@ createMap = function(targetDiv, mapId, geoData) {
         fills: {
             defaultFill: "#ABDDA4",
         },
-        data: geoData
+        data: geoData,
+        geographyConfig: {
+            popupTemplate: (geography, data) => { //return a string
+                let n = data == null ? 0 : data.number;
+                return '<div class="hoverinfo">'
+                    +'<strong>' + geography.properties.name + '</strong>'
+                    + '<p>' + mapId + ': ' + n + '</p>' +
+                '</div>';
+            }
+        }
     });
 }
 
@@ -29,8 +38,7 @@ augmentColors = function(geoData) {
     Object.keys(geoData).map((country, i) => {
         geoData[country] = {
             fillColor: paletteScale(geoData[country]),
-            number: geoData[country]
-        }
+            number: geoData[country] }
     });
 }
 
