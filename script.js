@@ -114,11 +114,17 @@ loadCsvData().then((d)=>{
 
     // make slider
     var sliderContainer = document.createElement("slidecontainer");
-    var slider = htmlToElement('<input type="range" min="2000" max="2015" value="50" class="slider" id="myRange"><p>Year: <span id="demo"></span></p> ');
+    var slider = htmlToElement('<div style="text-align:center;"><input type="range" min="2000" max="2015" value="50" class="slider" id="myRange" style="text-align:center"></div>');
     sliderContainer.appendChild(slider);
     document.body.appendChild(sliderContainer);
-    var years = htmlToElement('<p>Year: <span id="demo"></span></p>');
+    var years = htmlToElement('<p style="text-align:center">Year: <span id="demo"></span></p>');
     document.body.appendChild(years);
+
+    var years = document.getElementById("demo");
+    years.innerHTML = currentYear;
+
+    var years2 = document.getElementById("demo1");
+    years2.innerHTML = currentYear;
 
     function updateMaps() {
         leftData = filterData("suicides/100k pop", currentYear);
@@ -129,18 +135,14 @@ loadCsvData().then((d)=>{
         augmentColors(rightData);
         leftMap.updateChoropleth(leftData);
         rightMap.updateChoropleth(rightData);
+        years.innerHTML = slider.value;
+        years2.innerHTML = slider.value;
     }
-
 
     var slider = document.getElementById("myRange");
     slider.oninput = function() {
         currentYear = +this.value;
         updateMaps();
-    }
-    var years = document.getElementById("demo");
-    years.innerHTML = slider.value;
-    slider.oninput = function() {
-      years.innerHTML = this.value;
     }
 
     function onClickFn(v) {
@@ -156,4 +158,8 @@ loadCsvData().then((d)=>{
     // var button3 = htmlToElement('<button class="btn population" id="b3">Population</button>');
     var button3 = document.getElementById("b3");
     button3.onclick = onClickFn;
+
+    d3.select(".lmap").attr("align","center");
+    d3.select(".rmap").attr("align","center");
+
 });
