@@ -7,31 +7,31 @@
  
 <script>
 var csvdata = [];
-
-d3.csv("master.csv", function(data) {
+//https://stackoverflow.com/questions/9491885/csv-to-array-in-d3-js
+d3.csv("sucide_data.csv", function(data) {
   data.forEach(function(d) {
     d.year = +d.year;
     d["suicides/100k pop"] = +d["suicides/100k pop"];
     csvdata.push(d);
   });
-  //console.log(csvdata[0]);
+  console.log(csvdata[0]);
+  var rate = Filterdata(csvdata, 2000); 
+  console.log(rate);
 });
 
 //load csv -> filter through func(year, metric) -> output a json document 
-console.log(csvdata); 
-var rate = Filterdata(csvdata, 1987); 
-
 function Filterdata(csvdata, year) {
-  var temp = [];
-  //console.log(csvdata);
-  csvdata.forEach(function(d) {
-    if (year == d.year) {
-    	temp.push(d);
-	}
-  });
-  return temp;             
+  var rate_sum = 0;
+  var count = 0;
+  var arrayLength = csvdata.length;
+    for (var i = 0; i < arrayLength; i++) {
+        if (year == csvdata[i].year) {
+    		rate_sum = rate_sum + csvdata[i]["suicides/100k pop"];
+    		count = count + 1;
+		}	
+    }
+  return rate_sum / count;              
 }
-console.log(rate);
 </script>
 
 </body>
