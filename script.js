@@ -50,14 +50,6 @@ var testData = {
     KOR: 120,
     RUS: 10
 }
-//var testData = {
-//    USA: { fillKey: "authorHasTraveledTo" },
-//    JPN: { fillKey: "authorHasTraveledTo" },
-//    ITA: { fillKey: "authorHasTraveledTo" },
-//    CRI: { fillKey: "authorHasTraveledTo" },
-//    KOR: { fillKey: "authorHasTraveledTo" },
-//    DEU: { fillKey: "authorHasTraveledTo" },
-//}
 augmentColors(testData);
-document.body.appendChild(target);
+document.getElementById("lmap").appendChild(target);
 createMap(target, "test", testData);
