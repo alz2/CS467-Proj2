@@ -120,6 +120,8 @@ loadCsvData().then((d)=>{
 
     function updateMaps() {
         leftData = filterData("suicides/100k pop", currentYear);
+        console.log(currentOption);
+        console.log(currentYear);
         rightData = filterData(currentOption, currentYear);
         augmentColors(leftData);
         augmentColors(rightData);
@@ -134,17 +136,17 @@ loadCsvData().then((d)=>{
         updateMaps();
     }
 
-    // var button1 = htmlToElement('<button class="btn gdp" id="b1">GDP</button>');
-    var button1 = document.getElementById("b1");
-    button1.oninput = function() {
-        currentOption = cgdp;
+    function onClickFn(v) {
+        console.log(this.value);
+        currentOption = this.value;
         updateMaps();
     }
 
+    // var button1 = htmlToElement('<button class="btn gdp" id="b1">GDP</button>');
+    var button1 = document.getElementById("b1");
+    button1.onclick = onClickFn;
+
     // var button3 = htmlToElement('<button class="btn population" id="b3">Population</button>');
     var button3 = document.getElementById("b3");
-    button1.oninput = function() {
-        currentOption = cpopulation;
-        updateMaps();
-    }
+    button3.onclick = onClickFn;
 });
