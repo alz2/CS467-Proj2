@@ -1,5 +1,9 @@
 var currentYear = 2000;
 var currentOption = "suicides/100k pop";
+var cgdp = "gdp_per_capita ($)";
+// var cweather = "";
+var cpopulation = "population";
+// var hscore = "";
 
 async function loadCsvData() {
     let csvResp = await fetch('suicide_data.csv');
@@ -129,5 +133,18 @@ loadCsvData().then((d)=>{
         currentYear = +this.value;
         updateMaps();
     }
-});
 
+    // var button1 = htmlToElement('<button class="btn gdp" id="b1">GDP</button>');
+    var button1 = document.getElementById("b1");
+    button1.oninput = function() {
+        currentOption = cgdp;
+        updateMaps();
+    }
+
+    // var button3 = htmlToElement('<button class="btn population" id="b3">Population</button>');
+    var button3 = document.getElementById("b3");
+    button1.oninput = function() {
+        currentOption = cpopulation;
+        updateMaps();
+    }
+});
