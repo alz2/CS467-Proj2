@@ -32,6 +32,7 @@ loadCsvData().then((d)=>{
                 }
             }
         });
+        return basic_choropleth;
     }
 
     augmentColors = function(geoData) {
@@ -39,7 +40,7 @@ loadCsvData().then((d)=>{
         var minValue = Math.min.apply(null, values),
             maxValue = Math.max.apply(null, values);
 
-        var paletteScale = d3.scale.linear()
+        var paletteScale = d3.scale.pow()
             .domain([minValue,maxValue])
             .range(["#EFEFFF","#02386F"]); // blue color
 
@@ -80,20 +81,52 @@ loadCsvData().then((d)=>{
         return res;
     }
 
-    let t = filterData("suicides/100k pop", 2005);
-    let tr = filterData("suicides/100k pop", 2000);
-    augmentColors(t);
-    augmentColors(tr);
+    let leftData = filterData("suicides/100k pop", 2005);
+    let rightData = filterData("suicides/100k pop", 2000);
+    augmentColors(leftData);
+    augmentColors(rightData);
 
-    var leftMap = document.createElement("div");
-    leftMap.id = "leftMap";
+    var leftMapDiv = document.createElement("div");
+    leftMapDiv.id = "leftMap";
 
-    var rightMap = document.createElement("div");
-    rightMap.id = "rightMap";
+    var rightMapDiv = document.createElement("div");
+    rightMapDiv.id = "rightMap";
 
-    document.getElementById("lmap").appendChild(leftMap);
-    document.getElementById("rmap").appendChild(rightMap);
-    createMap(leftMap, "suicides/100k pop", t);
-    createMap(rightMap, "suicides/100k pop", tr);
+    document.getElementById("lmap").appendChild(leftMapDiv);
+    document.getElementById("rmap").appendChild(rightMapDiv);
+    var leftMap = createMap(leftMapDiv, "suicides/100k pop", leftData);
+    var rightMap = createMap(rightMapDiv, "suicides/100k pop", rightData);
+
+    var currentOption = "suicides/100k pop";
+
+    function htmlToElement(html) {
+        var template = document.createElement('template');
+        html = html.trim(); // Never return a text node of whitespace as the result
+        template.innerHTML = html;
+        return template.content.firstChild;
+    }
+
+    // make slider
+    var sliderContainer = document.createElement("slidecontainer");
+    var slider = htmlToElement('<input type="range" min="2000" max="2015" value="50" class="slider" id="myRange">&nbsp;<p>Year: <span id="cyear"></span></p>');
+    sliderContainer.appendChild(slider);
+    document.body.appendChild(sliderContainer);
+
+    //<div class="slidecontainer">
+    //    <input type="range" min="2000" max="2015" value="50" class="slider" id="myRange">
+    //    &nbsp;<p>Year: <span id="cyear"></span></p>
+    //</div>
+
+    var slider = document.getElementById("myRange");
+    slider.oninput = function() {
+        console.log("update");
+        let newYear = +this.value;
+        leftData = filterData(currentOption, newYear);
+        rightData = filterData(currentOption, newYear);
+        augmentColors(leftData);
+        augmentColors(rightData);
+        leftMap.updateChoropleth(leftData);
+        rightMap.updateChoropleth(rightData);
+    }
 });
 
