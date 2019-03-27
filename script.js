@@ -60,14 +60,6 @@ loadCsvData().then((d)=>{
         });
     }
 
-    //var testData = {
-    //    USA: 100,
-    //    JPN: 75,
-    //    ITA: 50,
-    //    KOR: 120,
-    //    RUS: 10
-    //}
-
     filterData = function(key, year) {
         let filteredYears = d.filter((el) => {
             return el.year == year;
@@ -90,7 +82,9 @@ loadCsvData().then((d)=>{
         return res;
     }
 
-    let leftData = filterData("suicides/100k pop", 2005);
+
+    // Make initial maps
+    let leftData = filterData("suicides/100k pop", 2000);
     let rightData = filterData("suicides/100k pop", 2000);
     augmentColors(leftData);
     augmentColors(rightData);
@@ -133,6 +127,7 @@ loadCsvData().then((d)=>{
         rightData = filterData(currentOption, currentYear);
         augmentColors(leftData);
         augmentColors(rightData);
+
         // update minmax vals
         let leftValues = Object.keys(leftData).map((country, i) => {return leftData[country].number});
         let rightValues = Object.keys(rightData).map((country, i) => {return rightData[country].number});
@@ -140,10 +135,10 @@ loadCsvData().then((d)=>{
         leftMax = Math.max.apply(null, leftValues);
         rightMin = Math.min.apply(null, rightValues);
         rightMax = Math.max.apply(null, rightValues);
-        updateLegend(leftMin, leftMax);
+        updateLegend("left_legend", leftMin, leftMax);
+        updateLegend("right_legend", rightMin, rightMax);
 
-
-
+        // update maps
         leftMap.updateChoropleth(leftData);
         rightMap.updateChoropleth(rightData);
         years.innerHTML = slider.value;
@@ -162,11 +157,9 @@ loadCsvData().then((d)=>{
         updateMaps();
     }
 
-    // var button1 = htmlToElement('<button class="btn gdp" id="b1">GDP</button>');
     var button1 = document.getElementById("b1");
     button1.onclick = onClickFn;
 
-    // var button3 = htmlToElement('<button class="btn population" id="b3">Population</button>');
     var button3 = document.getElementById("b3");
     button3.onclick = onClickFn;
 
@@ -175,19 +168,18 @@ loadCsvData().then((d)=>{
     var about_text = htmlToElement('<div><h2>About the data</h2><p > This compiled dataset pulled from  <a href="https://www.kaggle.com/russellyates88/suicide-rates-overview-1985-to-2016">Kaggle</a>, and was built to find signals correlated to increased suicide rates among different cohorts globally, across the socio-economic spectrum. We clean the data of any none values and separate out categorical values. The visualisation uses data from the source based on the user selected year and metric. IN the future we would like to implement categorical variables such as age, sex etc into our visualisation.</p><div ><h2>References</h2></div><p >United Nations Development Program. (2018). Human development index (HDI). Retrieved from http://hdr.undp.org/en/indicators/137506</p><p>World Bank. (2018). World development indicators: GDP (current US$) by country:1985 to 2016. Retrieved from http://databank.worldbank.org/data/source/world-development-indicators</p><p>[Szamil]. (2017). Suicide in the Twenty-First Century [dataset]. Retrieved from https://www.kaggle.com/szamil/suicide-in-the-twenty-first-century/notebook</p><p>World Health Organization. (2018). Suicide prevention. Retrieved from http://www.who.int/mental_health/suicide-prevention/en/</p></div>');
     textContainer.appendChild(about_text)
     document.body.appendChild(textContainer);
-    function updateLegend(minVal, maxVal) {
+
+
+    function updateLegend(legendId, minVal, maxVal) {
         // Color legend.
-        var svg = d3.select("svg");
+        let svg = d3.select("#"+legendId);
+
         var linear = d3.scale.pow()
             .domain([minVal, maxVal])
             .range([minColor, maxColor]);
 
-        var svg = d3.select("svg");
-
-        if (svg[0][0].childElementCount) { // remove previous graphic if avail
-            while (svg[0][0].firstChild) {
-                svg[0][0].removeChild(svg[0][0].firstChild);
-            }
+        while (svg[0][0].firstChild) { // remove 
+            svg[0][0].removeChild(svg[0][0].firstChild);
         }
 
         svg.append("g")
@@ -203,5 +195,6 @@ loadCsvData().then((d)=>{
         svg.select(".legendLinear")
             .call(legendLinear);
     }
-    updateLegend(0, 10);
+    updateLegend("left_legend", leftMin, leftMax);
+    updateLegend("right_legend", rightMin, rightMax);
 });

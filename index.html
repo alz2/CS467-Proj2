@@ -112,9 +112,9 @@ height: 40%; */
 
     <div class="header" id="header">
         <h1>Visualizing World Suicide Rates</h1>
-        <button class="btn gdp" id="b1">GDP</button>
+        <button class="btn gdp" id="b1" value="gdp_per_capita ($)">GDP</button>
         <button class="btn climate" id="b2">Climate</button>
-        <button class="btn population" id="b3">Population</button>
+        <button class="btn population" id="b3" value="population">Population</button>
         <button class="btn h-score" id="b4">H-Score</button>
     </div>
 
@@ -124,9 +124,11 @@ height: 40%; */
 
 
     <div class="lmap" id="lmap" style="text-align:center">
-        <svg width="600" height="100"></svg>
+        <svg width="600" height="100" id="left_legend"></svg>
     </div>
-    <div class="rmap" id="rmap" style="text-align:center"></div>
+    <div class="rmap" id="rmap" style="text-align:center">
+        <svg width="600" height="100" id="right_legend"></svg>
+    </div>
 
 
 
