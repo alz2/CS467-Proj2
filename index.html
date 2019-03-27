@@ -87,7 +87,6 @@ height: 40%; */
     padding: 20px;
     border: 10px solid grey;
     margin: 80px;
-    display:inline-block;
     /* margin: auto; */
 }
 .rmap {
@@ -96,7 +95,6 @@ height: 40%; */
     padding: 20px;
     border: 10px solid grey;
     margin: 80px;
-    display:inline-block;
     /* margin: auto; */
 }
 </style>
@@ -122,12 +120,13 @@ height: 40%; */
     <p style="text-align:center">Age-standarized death rates from suicide, measured as the number of deaths per 100,000 individuals.</p>
     <p style="text-align:center">Age-standarization assumes a constant population age & structure to allow for comparisons between countries and with time without the effects of a changing age distribution within a population (e.g. aging).</p>
 
-
-    <div class="lmap" id="lmap" style="text-align:center">
-        <svg width="600" height="100" id="left_legend"></svg>
-    </div>
-    <div class="rmap" id="rmap" style="text-align:center">
-        <svg width="600" height="100" id="right_legend"></svg>
+    <div style="text-align: center;">
+        <div class="lmap" id="lmap" style="text-align:center">
+            <svg width="600" height="100" id="left_legend"></svg>
+        </div>
+        <div class="rmap" id="rmap" style="text-align:center">
+            <svg width="600" height="100" id="right_legend"></svg>
+        </div>
     </div>
 
     <!-- slider -->
