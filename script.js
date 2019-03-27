@@ -95,6 +95,7 @@ loadCsvData().then((d)=>{
     var rightMapDiv = document.createElement("div");
     rightMapDiv.id = "rightMap";
 
+
     document.getElementById("lmap").appendChild(leftMapDiv);
     document.getElementById("rmap").appendChild(rightMapDiv);
     var leftMap = createMap(leftMapDiv, "suicides/100k pop", leftData);
@@ -156,6 +157,9 @@ loadCsvData().then((d)=>{
     var button3 = document.getElementById("b3");
     button3.onclick = onClickFn;
 
+    var button4 = document.getElementById("b4");
+    button4.onclick = onClickFn;
+
     d3.select(".lmap").attr("align","center");
 
     function updateLegend(legendId, minVal, maxVal) {
@@ -166,7 +170,7 @@ loadCsvData().then((d)=>{
             .domain([minVal, maxVal])
             .range([minColor, maxColor]);
 
-        while (svg[0][0].firstChild) { // remove 
+        while (svg[0][0].firstChild) { // remove
             svg[0][0].removeChild(svg[0][0].firstChild);
         }
 
