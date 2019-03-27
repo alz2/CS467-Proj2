@@ -108,13 +108,6 @@ loadCsvData().then((d)=>{
         return template.content.firstChild;
     }
 
-    // make slider
-    var sliderContainer = document.createElement("slidecontainer");
-    var slider = htmlToElement('<div style="text-align:center;"><input type="range" min="2000" max="2015" value="50" class="slider" id="myRange" style="text-align:center"></div>');
-    sliderContainer.appendChild(slider);
-    document.body.appendChild(sliderContainer);
-    var years = htmlToElement('<p style="text-align:center">Year: <span id="demo"></span></p>');
-    document.body.appendChild(years);
 
     var years = document.getElementById("demo");
     years.innerHTML = currentYear;
@@ -164,11 +157,6 @@ loadCsvData().then((d)=>{
     button3.onclick = onClickFn;
 
     d3.select(".lmap").attr("align","center");
-    var textContainer = document.createElement("text");
-    var about_text = htmlToElement('<div><h2>About the data</h2><p > This compiled dataset pulled from  <a href="https://www.kaggle.com/russellyates88/suicide-rates-overview-1985-to-2016">Kaggle</a>, and was built to find signals correlated to increased suicide rates among different cohorts globally, across the socio-economic spectrum. We clean the data of any none values and separate out categorical values. The visualisation uses data from the source based on the user selected year and metric. IN the future we would like to implement categorical variables such as age, sex etc into our visualisation.</p><div ><h2>References</h2></div><p >United Nations Development Program. (2018). Human development index (HDI). Retrieved from http://hdr.undp.org/en/indicators/137506</p><p>World Bank. (2018). World development indicators: GDP (current US$) by country:1985 to 2016. Retrieved from http://databank.worldbank.org/data/source/world-development-indicators</p><p>[Szamil]. (2017). Suicide in the Twenty-First Century [dataset]. Retrieved from https://www.kaggle.com/szamil/suicide-in-the-twenty-first-century/notebook</p><p>World Health Organization. (2018). Suicide prevention. Retrieved from http://www.who.int/mental_health/suicide-prevention/en/</p></div>');
-    textContainer.appendChild(about_text)
-    document.body.appendChild(textContainer);
-
 
     function updateLegend(legendId, minVal, maxVal) {
         // Color legend.
