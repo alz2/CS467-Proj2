@@ -4,34 +4,42 @@
 .header {
     padding: 20px; /* some padding */
     text-align: center; /* center the text */
-    background: #1abc9c; /* green background */
+    background: #a8aaad; /* green background */
     color: white; /* white text color */
 }
-
 /* Increase the font size of the <h1> element */
 .header h1 {
     font-size: 60px;
 }
+/* */
+.abtFont {
+font-family: Georgia, serif;
+font-size: 15px;
+letter-spacing: 2px;
+word-spacing: 2px;
+color: #000000;
+font-weight: normal;
+text-decoration: none;
+font-style: normal;
 
-/* buttons */
+}/* buttons */
 .btn {
     border: none;
     background-color: inherit;
     padding: 14px 50px;
+    font-weight: bold;
     font-size: 20px;
     cursor: pointer;
     display: inline-block;
 }
-
 /* On mouse-over */
 .btn:hover {background: #eee;}
-.gdp {color: green;}
-.climate {color: dodgerblue;}
-.population {color: orange;}
-.generation {color: red;}
+.gdp {color: black;}
+.climate {color: black;}
+.population {color: black;}
+.generation {color: black;}
 .h-score {color: black;}
-.age {color: magenta;}
-.gender {color: aqua;}
+.About {color :black;}
 
 /*** slider for years */
 .slidecontainer {
@@ -61,7 +69,7 @@
     appearance: none;
     width: 25px; /* Set a specific slider handle width */
     height: 25px; /* Slider handle height */
-    background: #4CAF50; /* Green background */
+    background: #000000; /* Green background */
     cursor: pointer; /* Cursor on hover */
 }
 .slider::-moz-range-thumb {
@@ -70,8 +78,6 @@
     background: #4CAF50; /* Green background */
     cursor: pointer; /* Cursor on hover */
 }
-
-
 /*** left and right maps */
 .lmap {
     /* width: 40%;
@@ -79,24 +85,20 @@ height: 40%; */
     /* float:left; */
     display:inline-block;
     padding: 20px;
-    border: 10px solid green;
+    border: 10px solid grey;
     margin: 80px;
     display:inline-block;
     /* margin: auto; */
-
 }
-
 .rmap {
     /* float:right; */
     display:inline-block;
     padding: 20px;
-    border: 10px solid green;
+    border: 10px solid grey;
     margin: 80px;
     display:inline-block;
     /* margin: auto; */
 }
-
-
 </style>
 
 
@@ -104,8 +106,6 @@ height: 40%; */
 <body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.1.0/d3-legend.js"></script>
-
     <script src="node_modules/datamaps/dist/datamaps.world.min.js"></script>
 
     <div class="header" id="header">
@@ -114,20 +114,19 @@ height: 40%; */
         <button class="btn climate" id="b2">Climate</button>
         <button class="btn population" id="b3">Population</button>
         <button class="btn h-score" id="b4">H-Score</button>
-    </div>
 
+    </div>
+  
     <h1 style="text-align:center">Suicide death rates <span id="demo1"></span></h1>
     <p style="text-align:center">Age-standarized death rates from suicide, measured as the number of deaths per 100,000 individuals.</p>
     <p style="text-align:center">Age-standarization assumes a constant population age & structure to allow for comparisons between countries and with time without the effects of a changing age distribution within a population (e.g. aging).</p>
 
-
-    <div class="lmap" id="lmap" style="text-align:center">
-        <svg width="600" height="100"></svg>
-    </div>
+    <div class="lmap" id="lmap" style="text-align:center"></div>
     <div class="rmap" id="rmap" style="text-align:center"></div>
-
+    
 
 
     <script type="text/javascript" src="script.js" style="text-align:center"></script>
+   
 </body>
 </html>
